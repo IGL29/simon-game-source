@@ -1,28 +1,54 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+ <div>
+    <audio
+      ref="soundRed"
+      src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"
+      preload="auto"
+    ></audio>
+
+    <audio
+      ref="soundGreen"
+      src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"
+      preload="auto"
+    ></audio>
+
+    <audio
+      ref="soundYellow"
+      src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"
+      preload="auto"
+    ></audio>
+
+    <audio
+      ref="soundBlue"
+      src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"
+      preload="auto"
+    ></audio>
+
+   <SimonGame :sounds="$refs" />
+   <ButtonMuteSound :isMuteSound.sync="isMuteSound"/>
+ </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import SimonGame from '@/components/SimonGame.vue';
+import ButtonMuteSound from '@/components/ButtonMuteSound.vue';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      isMuteSound: false,
+    };
   },
+
+  watch: {
+    isMuteSound() {
+      Object.values(this.$refs).forEach((value) => {
+        const sound = value;
+        sound.muted = this.isMuteSound;
+      });
+    },
+  },
+
+  components: { SimonGame, ButtonMuteSound },
 };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
